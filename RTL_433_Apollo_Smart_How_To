@@ -31,3 +31,6 @@
 # Nooelec RTL-SDR v5 Bundle (good deal with decent quality antennas)
 # https://github.com/merbanan/rtl_433 running on Pi3b+ 
 # MQTT Broker running on HA hosted on Pi5
+
+### File used to decode the Apollo transmitter with rtl_433
+# https://github.com/SalimSwift/Home_Assistant_Slight_Improvements/blob/main/Apollo.conf
