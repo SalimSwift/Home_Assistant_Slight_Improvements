@@ -1,0 +1,33 @@
+# This is an implementation of the device "Apollo Smart Heating Oil Energy Monitor" (https://dunravensystems.com/wp-content/uploads/2023/05/9-5690-01-tek603d-apollo-smart-product-manual-v21-with-theft-alarm.pdf) on my instance of HA. 
+# I am using RTL_433 on a proxy PI3b+ which reads the DEPTH_CM from the Apollo transmitter, then sends it via MQTT to HA.
+# RTL_433 does not understand the Apollo device by default, even if running -R 235 "Oil Ultrasonic SMART FSK"; The first bytes which helps the decoder to work are hardcoded in -R 235 to be "55 58" which isnt the case for me and some individuals online.
+# The solution for this is to create your own Apollo.conf and call it with "rtl_433 -R 0 -c $PATHTOAPOLLO.CONF -F json -v
+# This will return results every ~30minutes to your terminal window. The DEPTH_CM is displayed in a nested_json as shown below:
+{
+  "time": "2025-01-04 10:54:10",
+  "model": "Apollo_Ultrasonic_Oil",
+  "count": 1,
+  "num_rows": 1,
+  "rows": [
+    {
+      "len": 64,
+      "data": "50ecb05e17183242",
+      "PREAMBLE?": 20716,
+      "ID": 45150,
+      "FLAGS?": 23,
+      "COUNTER?": 24,
+     >>>>>> "DEPTH_CM": 50, <<<<<<<<<<<
+      "CRC": 66
+    }
+  ],
+  "codes": [
+    "{64}50ecb05e17183242"
+  ]
+}
+
+# It is then up to you to deliver that data wherever you like.
+
+### Hardware used:
+# Nooelec RTL-SDR v5 Bundle (good deal with decent quality antennas)
+# https://github.com/merbanan/rtl_433 running on Pi3b+ 
+# MQTT Broker running on HA hosted on Pi5
